@@ -18,6 +18,17 @@ func (v *Slice[T]) Push(m T) {
 	*v = append(*v, m)
 }
 
+// Filter moar functional functions for the functors!
+func Filter[T any](s []T, fn func(T) bool) Slice[T] {
+	var r Slice[T]
+	for _, elem := range s {
+		if fn(elem) {
+			r.Push(elem)
+		}
+	}
+	return r
+}
+
 // Map iterates over the array, returns a copy
 func Map[F, T any](v []F, fn func(F) T) Slice[T] {
 
