@@ -18,6 +18,18 @@ func (v *Slice[T]) Push(m T) {
 	*v = append(*v, m)
 }
 
+// Map iterates over the array, returns a copy
+func Map[T1, T2 any](v []T1, fn func(T1) T2) Slice[T2] {
+
+	res := make(Slice[T2], len(v))
+
+	for i, elem := range v {
+		res[i] = fn(elem)
+	}
+
+	return res
+}
+
 // Index returns the item at a given index
 func Index[T comparable](v []T, el T) int {
 	// loop through the slice ... self explanatory
@@ -69,6 +81,11 @@ func (v *Slice[T]) Each(fn Fn[T]) {
 	for _, i := range *v {
 		fn(i)
 	}
+}
+
+// Len returns the length of the array
+func (v Slice[T]) Len() int {
+	return len(v)
 }
 
 // Uniq given a list of comparable items iterate and remove dups
