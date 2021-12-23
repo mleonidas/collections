@@ -26,3 +26,17 @@ func (v *Vector[T]) Each(fn Fn[T]) {
 		fn(i)
 	}
 }
+
+func Uniq[T comparable](v []T) []T {
+	keys := make(map[T]bool)
+	var list Vector[T]
+
+	for _, entry := range v {
+		if _, value := keys[entry]; !value {
+			keys[entry] = true
+			list.Push(entry)
+		}
+	}
+
+	return list
+}
