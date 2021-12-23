@@ -19,9 +19,9 @@ func (v *Slice[T]) Push(m T) {
 }
 
 // Map iterates over the array, returns a copy
-func Map[T1, T2 any](v []T1, fn func(T1) T2) Slice[T2] {
+func Map[F, T any](v []F, fn func(F) T) Slice[T] {
 
-	res := make(Slice[T2], len(v))
+	res := make(Slice[T], len(v))
 
 	for i, elem := range v {
 		res[i] = fn(elem)
