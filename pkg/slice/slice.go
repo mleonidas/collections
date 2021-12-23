@@ -18,6 +18,19 @@ func (v *Slice[T]) Push(m T) {
 	*v = append(*v, m)
 }
 
+// Each mostly a nod to ruby, loop over each item in the slice and call
+// the function passed as an argument with the item as a paramater
+func (v *Slice[T]) Each(fn Fn[T]) {
+	for _, i := range *v {
+		fn(i)
+	}
+}
+
+// Len returns the length of the array
+func (v Slice[T]) Len() int {
+	return len(v)
+}
+
 // Filter moar functional functions for the functors!
 func Filter[T any](s []T, fn func(T) bool) Slice[T] {
 	var r Slice[T]
@@ -27,6 +40,26 @@ func Filter[T any](s []T, fn func(T) bool) Slice[T] {
 		}
 	}
 	return r
+}
+
+// All returns true if all items in the slice satisfy the predicate fn
+func All[T any](s []T, fn func(T) bool) bool {
+	for _, v := range s {
+		if !fn(v) {
+			return false
+		}
+	}
+	return true
+}
+
+// Any returns true if one of the strings in the slice satisfies the predicate f.
+func Any[T any](s []T, fn func(T) bool) bool {
+	for _, v := range s {
+		if fn(v) {
+			return true
+		}
+	}
+	return false
 }
 
 // Map iterates over the array, returns a copy
@@ -84,19 +117,6 @@ func From[T any](items ...T) *Slice[T] {
 		vec.Push(i)
 	}
 	return &vec
-}
-
-// Each mostly a nod to ruby, loop over each item in the slice and call
-// the function passed as an argument with the item as a paramater
-func (v *Slice[T]) Each(fn Fn[T]) {
-	for _, i := range *v {
-		fn(i)
-	}
-}
-
-// Len returns the length of the array
-func (v Slice[T]) Len() int {
-	return len(v)
 }
 
 // Uniq given a list of comparable items iterate and remove dups
