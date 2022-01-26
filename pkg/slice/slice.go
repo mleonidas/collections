@@ -76,9 +76,11 @@ func Map[F, T any](v []F, fn func(F) T) Slice[T] {
 
 // Index returns the item at a given index
 func Index[T comparable](v []T, el T) int {
+
 	// loop through the slice ... self explanatory
 	for i, e := range v {
 		if e == el {
+
 			return i
 		}
 	}
@@ -111,12 +113,12 @@ func Sort[T constraints.Ordered](v []T) []T {
 }
 
 // From a nod to Kotlins arrayOf taking arguments as a variadic
-func From[T any](items ...T) *Slice[T] {
+func From[T any](items ...T) Slice[T] {
 	var vec Slice[T]
 	for _, i := range items {
 		vec.Push(i)
 	}
-	return &vec
+	return vec
 }
 
 // Uniq given a list of comparable items iterate and remove dups
